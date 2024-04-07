@@ -1,0 +1,67 @@
+const colorConfig = {
+  primary: {
+    DEFAULT: "var(--blue-6)",
+    hover: "var(--blue-5)",
+    active: "var(--blue-7)",
+    special: "var(--blue-4)",
+    disabled: "var(--blue-3)",
+    disabledText: "var(--blue-2)",
+    suspension: "var(--blue-1)",
+  },
+  // success: {
+  //   DEFAULT: "var(--green-6)",
+  //   hover: "var(--green-5)",
+  //   active: "var(--green-7)",
+  //   special: "var(--green-4)",
+  //   disabled: "var(--green-3)",
+  //   disabledText: "var(--green-2)",
+  //   suspension: "var(--green-1)",
+  // },
+  // warning: {
+  //   DEFAULT: "var(--orange-6)",
+  //   hover: "var(--orange-5)",
+  //   active: "var(--orange-7)",
+  //   special: "var(--orange-4)",
+  //   disabled: "var(--orange-3)",
+  //   disabledText: "var(--orange-2)",
+  //   suspension: "var(--orange-1)",
+  // },
+  // danger: {
+  //   DEFAULT: "var(--red-6)",
+  //   hover: "var(--red-5)",
+  //   active: "var(--red-7)",
+  //   special: "var(--red-4)",
+  //   disabled: "var(--red-3)",
+  //   disabledText: "var(--red-2)",
+  //   suspension: "var(--red-1)",
+  // },
+  // link: {
+  //   DEFAULT: "var(--blue-6)",
+  //   hover: "var(--blue-5)",
+  //   active: "var(--blue-7)",
+  //   special: "var(--blue-4)",
+  //   disabled: "var(--blue-3)",
+  //   disabledText: "var(--blue-2)",
+  //   suspension: "var(--blue-1)",
+  // },
+  // border: {
+  //   DEFAULT: "var(--blue-6)",
+  //   shallow: "var(--blue-5)",
+  //   deep: "var(--blue-7)",
+  //   weight: "var(--blue-4)",
+  // },
+  // fill: {
+  //   DEFAULT: "var(--blue-6)",
+  //   shallow: "var(--blue-5)",
+  //   deep: "var(--blue-7)",
+  //   weight: "var(--blue-4)",
+  // },
+  // text: {
+  //   DEFAULT: "var(--blue-6)",
+  //   shallow: "var(--blue-5)",
+  //   deep: "var(--blue-7)",
+  //   weight: "var(--blue-4)",
+  // },
+}
+
+export default colorConfig
