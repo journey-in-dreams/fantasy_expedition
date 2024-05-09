@@ -1,18 +1,18 @@
-import { useState } from 'react'
+import { useState } from "react";
 
-import { IUser } from '@/types/config'
+import { IUser } from "@/types/config";
 
-type TSetData<T> = React.Dispatch<React.SetStateAction<T>>
+type TSetData<T> = React.Dispatch<React.SetStateAction<T>>;
 export interface IUseUserInfo {
-  userInfo: IUser
-  setUserInfo: TSetData<IUser>
+  userInfo: IUser;
+  setUserInfo: TSetData<IUser>;
 }
 
 export const useUserInfo = () => {
-  const [userInfo, setUserInfo] = useState<IUser>({}) // 用户信息
+  const [userInfo, setUserInfo] = useState<IUser>({}); // 用户信息
 
   return {
     userInfo,
-    setUserInfo
-  }
-}
+    setUserInfo,
+  };
+};

@@ -62,6 +62,6 @@ const colorConfig = {
   //   deep: "var(--blue-7)",
   //   weight: "var(--blue-4)",
   // },
-}
+};
 
-export default colorConfig
+export default colorConfig;

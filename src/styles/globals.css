@@ -1,4 +1,4 @@
-@import './color.css';
+@import "./color.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,33 +10,33 @@
 
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
- 
+
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
- 
+
     --primary: var(--blue-6);
     --primary-foreground: #fff;
- 
+
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
- 
+
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
- 
+
     --accent: 240 4.8% 95.9%;
     --accent-foreground: 240 5.9% 10%;
- 
+
     --destructive: 355.2 83.73% 59.02%;
     --destructive-foreground: 0 0% 98%;
 
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 240 10% 3.9%;
- 
+
     --radius: 0.5rem;
   }
 }
- 
+
 /* @layer base {
   * {
     @apply border-border;
@@ -45,6 +45,29 @@
     @apply bg-background text-foreground;
   }
 } */
+
+body {
+  background: var(--background);
+  /* background-image: url('/star.png'); */
+  .bg-star {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #000000;
+  }
+  @keyframes flash {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}
 
 .scrollbar-w-2::-webkit-scrollbar {
   width: 0.25rem;
@@ -64,4 +87,3 @@
 .scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
   border-radius: 7px;
 }
-

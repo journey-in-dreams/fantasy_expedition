@@ -1,8 +1,8 @@
-import { NextAuthOptions } from 'next-auth';
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import GitHubProvider from 'next-auth/providers/github';
+import { NextAuthOptions } from "next-auth";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import GitHubProvider from "next-auth/providers/github";
 // import GoogleProvider from 'next-auth/providers/google';
-import prisma from '@/lib/prisma';
+import prisma from "@/lib/prisma";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -10,8 +10,8 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
       httpOptions: {
-        timeout: 10000
-      }
+        timeout: 10000,
+      },
     }),
     // GoogleProvider({
     //   clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -29,7 +29,7 @@ export const authOptions: NextAuthOptions = {
         session.user.userId = user.id;
       }
       return session;
-    }
+    },
   },
   pages: {
     // signIn: '/login',
@@ -37,5 +37,5 @@ export const authOptions: NextAuthOptions = {
     // error: '/auth/error', // Error code passed in query string as ?error=
     // verifyRequest: '/auth/verify-request', // (used for check email message)
     // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
-  }
+  },
 };

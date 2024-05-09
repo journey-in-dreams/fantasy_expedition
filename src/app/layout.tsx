@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import '@/styles/globals.css';
-import { cn } from '@/lib/utils'
+import "@/styles/globals.css";
+import { cn } from "@/lib/utils";
 // import { GlobalContextProvider } from '@/context/GlobalContext'
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,14 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(
-        'min-h-screen font-sans antialiased',
-        inter.className
-      )}>
+      <body
+        className={cn("min-h-screen font-sans antialiased", inter.className)}
+      >
         <script
-        dangerouslySetInnerHTML={{
-          // 增加一个自执行的函数，用来在渲染主题色
-          __html: `
+          dangerouslySetInnerHTML={{
+            // 增加一个自执行的函数，用来在渲染主题色
+            __html: `
               (function () {
                 function setTheme(newTheme) {
                   window.__theme = newTheme;
@@ -58,12 +57,11 @@ export default function RootLayout({
                   }
                 });
               })();
-            `
-        }}
-      />
+            `,
+          }}
+        />
         {children}
       </body>
     </html>
   );
 }
-
