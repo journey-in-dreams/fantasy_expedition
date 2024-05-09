@@ -1,6 +1,5 @@
 {
   "trailingComma": "es5",
-  "downlevelIteration": true,
   "tabWidth": 2,
   "semi": false,
   "singleQuote": true

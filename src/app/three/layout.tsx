@@ -1,9 +1,9 @@
-"use client";
+'use client'
 
 export default function StarLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
-  return children;
+  return children
 }

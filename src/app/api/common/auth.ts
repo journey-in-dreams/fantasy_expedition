@@ -1,8 +1,8 @@
-import { NextAuthOptions } from "next-auth";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import GitHubProvider from "next-auth/providers/github";
+import { NextAuthOptions } from 'next-auth'
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import GitHubProvider from 'next-auth/providers/github'
 // import GoogleProvider from 'next-auth/providers/google';
-import prisma from "@/lib/prisma";
+import prisma from '@/lib/prisma'
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -26,9 +26,9 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async session({ session, user }) {
       if (user.id && session?.user) {
-        session.user.userId = user.id;
+        session.user.userId = user.id
       }
-      return session;
+      return session
     },
   },
   pages: {
@@ -38,4 +38,4 @@ export const authOptions: NextAuthOptions = {
     // verifyRequest: '/auth/verify-request', // (used for check email message)
     // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
   },
-};
+}

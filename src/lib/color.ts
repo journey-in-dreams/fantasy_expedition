@@ -1,12 +1,12 @@
 const colorConfig = {
   primary: {
-    DEFAULT: "var(--blue-6)",
-    hover: "var(--blue-5)",
-    active: "var(--blue-7)",
-    special: "var(--blue-4)",
-    disabled: "var(--blue-3)",
-    disabledText: "var(--blue-2)",
-    suspension: "var(--blue-1)",
+    DEFAULT: 'var(--blue-6)',
+    hover: 'var(--blue-5)',
+    active: 'var(--blue-7)',
+    special: 'var(--blue-4)',
+    disabled: 'var(--blue-3)',
+    disabledText: 'var(--blue-2)',
+    suspension: 'var(--blue-1)',
   },
   // success: {
   //   DEFAULT: "var(--green-6)",
@@ -62,6 +62,6 @@ const colorConfig = {
   //   deep: "var(--blue-7)",
   //   weight: "var(--blue-4)",
   // },
-};
+}
 
-export default colorConfig;
+export default colorConfig
