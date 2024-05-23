@@ -2,7 +2,6 @@
 
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
-import { useController } from '@react-three/xr'
 import { OrbitControls } from '@react-three/drei'
 import {
   AdditiveBlending,
