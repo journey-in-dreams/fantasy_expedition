@@ -1,25 +1,25 @@
-import { NextAuthOptions } from 'next-auth'
+import NextAuth from 'next-auth'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import GitHubProvider from 'next-auth/providers/github'
-// import GoogleProvider from 'next-auth/providers/google';
+import GoogleProvider from 'next-auth/providers/google'
 import prisma from '@/lib/prisma'
 
-export const authOptions: NextAuthOptions = {
+export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     GitHubProvider({
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-      httpOptions: {
-        timeout: 10000,
-      },
+      // httpOptions: {
+      //   timeout: 10000,
+      // },
     }),
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_CLIENT_ID as string,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-    //   httpOptions: {
-    //     timeout: 10000
-    //   }
-    // })
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      // httpOptions: {
+      //   timeout: 10000
+      // }
+    }),
   ],
   adapter: PrismaAdapter(prisma),
   secret: process.env.SECRET,
@@ -33,9 +33,9 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     // signIn: '/login',
-    // signOut: '/auth/signout',
+    // signOut: '/auth/signOut',
     // error: '/auth/error', // Error code passed in query string as ?error=
     // verifyRequest: '/auth/verify-request', // (used for check email message)
     // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
   },
-}
+})

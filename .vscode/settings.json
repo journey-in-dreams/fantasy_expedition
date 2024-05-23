@@ -1,10 +1,20 @@
 {
   "cSpell.words": [
-    "drei"
+    "drei",
+    "hookform",
+    "Lalezar",
+    "Phong",
+    "Raycaster",
+    "shadcn",
+    "tanstack",
+    "Threejs",
+    "trpc",
+    "unproject"
   ],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "editor.tabSize": 2
 }
