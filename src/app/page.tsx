@@ -22,7 +22,7 @@ export default function Home({
       <Link className={buttonVariants()} href="/three">
         Go Three
       </Link>
-      <div>一起去冒险吧</div>
+      {/* <div>一起去冒险吧</div> */}
     </main>
   )
 }

@@ -9,9 +9,10 @@ import {
   BufferGeometry,
   BufferAttribute,
   Points,
-  Vector3,
-  Camera,
 } from 'three'
+import NoSSR from '@/components/NoSSR'
+import { standardToWorldHandle } from '@/lib/three'
+import { getRandom } from '@/lib/utils'
 
 const particleVertexShader = [
   'attribute vec3  customColor;',
@@ -33,6 +34,7 @@ const particleVertexShader = [
   'gl_Position = projectionMatrix * mvPosition;',
   '}',
 ].join('\n')
+
 const particleFragmentShader = [
   'uniform sampler2D myTexture;',
   'varying vec4 vColor;',
@@ -49,56 +51,26 @@ const particleFragmentShader = [
   '}',
 ].join('\n')
 
-function getRandom(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1) + min)
-}
-
-// 世界坐标转屏幕坐标
-function worldToStandardHandle(
-  camera: Camera,
-  { x, y, z }: { x: number; y: number; z: number }
+function Star(
+  props: JSX.IntrinsicElements['points'] & {
+    ignoreWeight: number
+    ignoreHeight: number
+    count: number
+  }
 ) {
-  const worldVector = new Vector3(x, y, z)
-  const standardVector = worldVector.project(camera)
-  var a = window.innerWidth / 2
-  var b = window.innerHeight / 2
-  var x1 = Math.round(standardVector.x * a + a)
-  var y1 = Math.round(-standardVector.y * b + b)
-  return [x1, y1]
-}
+  const { ignoreWeight, ignoreHeight, count } = props
 
-// 屏幕坐标转世界坐标
-function standardToWorldHandle(
-  camera: Camera,
-  { x, y }: { x: number; y: number },
-  z?: number
-) {
-  const x1 = (x / window.innerWidth) * 2 - 1
-  const y1 = -(y / window.innerHeight) * 2 + 1
-  //标准设备坐标(z=0.5这个值并没有一个具体的说法)
-  const stdVector = new Vector3(x1, y1, 0.5)
-  stdVector.unproject(camera)
-  var direction = stdVector.sub(camera.position).normalize()
-  var distance = -camera.position.z / direction.z
-  var worldCoord = camera.position
-    .clone()
-    .add(direction.multiplyScalar(distance - (z || 0)))
-  return worldCoord
-}
-
-function Star(props: JSX.IntrinsicElements['points']) {
   const ref = useRef<BufferGeometry>(null!)
   const pointsRef = useRef<Points>(null!)
 
   const obj = useThree()
 
   const CircleImg = useLoader(TextureLoader, '/star.png')
-  const count = 108
 
   const particlesPosition = useMemo(() => {
     const win = window.innerWidth
     const hei = window.innerHeight
-    const newWorldVector = standardToWorldHandle(
+    const worldVector = standardToWorldHandle(
       obj.camera,
       {
         x: win - 16,
@@ -106,18 +78,67 @@ function Star(props: JSX.IntrinsicElements['points']) {
       },
       1
     )
-    const positions = new Float32Array(count * 3)
-    for (let i = 1; i <= count * 3; i++) {
-      if (i % 3 === 0) {
-        positions[i] = getRandom(-newWorldVector.x, newWorldVector.x)
-      } else if (i % 3 === 1) {
-        positions[i] = getRandom(-newWorldVector.y, newWorldVector.y)
-      } else {
-        positions[i] = 1
-      }
+    const ignorePo = standardToWorldHandle(
+      obj.camera,
+      { x: win / 2 + ignoreWeight / 2, y: hei / 2 + ignoreHeight / 2 },
+      1
+    )
+    let permitArea: {
+      x: [number, number]
+      y: [number, number]
+    }[] = [
+      { x: [-worldVector.x, -ignorePo.x], y: [ignorePo.y, worldVector.y] },
+
+      { x: [ignorePo.x, worldVector.x], y: [ignorePo.y, worldVector.y] },
+
+      { x: [-worldVector.x, -ignorePo.x], y: [-worldVector.y, -ignorePo.y] },
+
+      { x: [ignorePo.x, worldVector.x], y: [-worldVector.y, -ignorePo.y] },
+    ]
+
+    if (ignoreWeight !== 0) {
+      permitArea.push({
+        x: [-worldVector.x, -ignorePo.x],
+        y: [-ignorePo.y, ignorePo.y],
+      })
+      permitArea.push({
+        x: [ignorePo.x, worldVector.x],
+        y: [-ignorePo.y, ignorePo.y],
+      })
     }
+
+    if (ignoreHeight !== 0) {
+      permitArea.push({
+        x: [-ignorePo.x, ignorePo.x],
+        y: [ignorePo.y, worldVector.y],
+      })
+      permitArea.push({
+        x: [-ignorePo.x, ignorePo.x],
+        y: [-worldVector.y, -ignorePo.y],
+      })
+    }
+
+    let arr: [number, number, number][] = []
+    for (let i = 1; i <= count; i++) {
+      const k = Math.floor(Math.random() * permitArea.length)
+      arr.push([
+        getRandom(permitArea[k].x[0], permitArea[k].x[1]),
+        getRandom(permitArea[k].y[0], permitArea[k].y[1]),
+        1,
+      ])
+    }
+    const positions: Float32Array = arr.reduce(
+      (prev: Float32Array, cur, i) => {
+        const [x, y, z] = cur
+        prev[i * 3] = x
+        prev[i * 3 + 1] = y
+        prev[i * 3 + 2] = z
+        return prev
+      },
+      new Float32Array(count * 3)
+    )
     return positions
-  }, [count, obj.camera])
+  }, [count, ignoreHeight, ignoreWeight, obj.camera])
 
   const particlesColors = useMemo(() => {
     const colors = new Float32Array(count * 3)
@@ -244,9 +265,16 @@ function Star(props: JSX.IntrinsicElements['points']) {
   )
 }
 
-export default function App() {
+function App(props: {
+  children?: React.ReactNode
+  ignoreWeight: number
+  ignoreHeight: number
+  count: number
+}) {
+  const { ignoreWeight, ignoreHeight, count, children } = props
+
   return (
-    <div className="fixed top-0 left-0 bottom-0 right-0 bg-[#000]">
+    <div className="absolute top-0 left-0 w-[100%] h-[100%] bg-[#000]">
       <Canvas
         camera={{
           position: [0, 0, 100],
@@ -265,14 +293,40 @@ export default function App() {
         />
         <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
         <Suspense fallback={false}>
-          <Star />
+          <Star
+            ignoreWeight={ignoreWeight}
+            ignoreHeight={ignoreHeight}
+            count={count}
+          ></Star>
         </Suspense>
         {/* <axesHelper>
           <gridHelper args={[100, 10]} rotation={[Math.PI / 2, 0, 0]} />
         </axesHelper> */}
         <OrbitControls enabled={false} />
       </Canvas>
-      {/* <div className="absolute top-0 w-200 bg-[#fff]">看一下在哪里</div> */}
+      {children}
     </div>
+  )
+}
+
+export default function StarBg(
+  props: JSX.IntrinsicElements['div'] & {
+    children?: React.ReactNode
+    ignoreWeight?: number
+    ignoreHeight?: number
+    count?: number
+  }
+) {
+  const { ignoreWeight = 0, ignoreHeight = 0, count = 108, children } = props
+  return (
+    <NoSSR>
+      <App
+        ignoreWeight={ignoreWeight}
+        ignoreHeight={ignoreHeight}
+        count={count}
+      >
+        {children}
+      </App>
+    </NoSSR>
   )
 }
